@@ -4,13 +4,6 @@ const port = 3000;
 // Create a UDP server
 const server = dgram.createSocket('udp4');
 
-// Store the last received data for each unique ID
-const lastReceivedData = {};
-
-
-
-
-
 // Function to handle messages
 const handleMessage = (msg, rinfo) => {
     console.log(`Server received: ${msg} from ${rinfo.address}:${rinfo.port}`);
