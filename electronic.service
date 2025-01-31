@@ -1,0 +1,16 @@
+[Unit]
+Description=UDP ELECTRONIC MONITORING APP
+After=network.target
+
+[Service]
+Type=simple
+User=ubuni
+Environment='NODEPATH=/home/ubuni/.nvm/versions/node/v22.12.0/bin/node'
+WorkingDirectory=/var/www/electronic
+ExecStart=/usr/bin/bash -lc '$NODEPATH server.js'
+TimeoutSec=30
+RestartSec=15s
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
