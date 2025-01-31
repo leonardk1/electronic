@@ -5,9 +5,9 @@ After=network.target
 [Service]
 Type=simple
 User=ubuni
-Environment='NODEPATH=/home/ubuni/.nvm/versions/node/v22.12.0/bin/node'
+Environment='NODEPATH=/home/ubuni/.nvm/versions/node/v22.12.0/bin'
 WorkingDirectory=/var/www/electronic
-ExecStart=/usr/bin/bash -lc '$NODEPATH /var/www/electronic/server.js'
+ExecStart=/usr/bin/bash -lc '$NODEPATH/node /var/www/electronic/server.js'
 TimeoutSec=30
 RestartSec=15s
 Restart=always
