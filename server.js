@@ -11,11 +11,11 @@ const handleMessage = (msg, rinfo) => {
     let receivedData;
     try {
         receivedData = JSON.parse(msg);
-        const responseObject = { response: "success", received_data: receivedData };
+        const responseObject = { status: "success" };
         sendResponse(responseObject, rinfo);
     } catch (err) {
         console.error('Invalid JSON received:', msg);
-        const responseObject = { response: "failed", received_data: receivedData };
+        const responseObject = { status: "failed" };
         sendResponse(responseObject, rinfo);
         return;
     }
