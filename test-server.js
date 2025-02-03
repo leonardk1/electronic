@@ -1,14 +1,14 @@
 const dgram = require('dgram');
 const { Client } = require('pg');
-const port = 3000;
+const port = 3001;
 
 // Create a UDP server
 const server = dgram.createSocket('udp4');
 
 const pgClient = new Client({
     user: 'ubuni',
-    password: 'xWQA#l23*55d',
-    host: '143.110.244.181',
+    password: 'ubuniapi#2018',
+    host: '127.0.0.1',
     port: '5432',
     database: 'electronic',
 });

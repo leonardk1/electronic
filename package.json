@@ -1,0 +1,24 @@
+{
+  "name": "electronic",
+  "version": "1.0.0",
+  "description": "Electronic DB manager App",
+  "main": "server.js",
+  "dependencies": {
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leonardk1/electronic.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leonardk1/electronic/issues"
+  },
+  "homepage": "https://github.com/leonardk1/electronic#readme"
+}
