@@ -8,7 +8,7 @@ const server = dgram.createSocket('udp4');
 const pgClient = new Client({
     user: 'ubuni',
     password: 'xWQA#l23*55d',
-    host: '143.110.244.181',
+    host: '127.0.0.1',
     port: '5432',
     database: 'electronic',
 });
