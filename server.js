@@ -15,29 +15,51 @@ const handleData = async (data, rinfo) => {
   try {
     receivedData = JSON.parse(data);
 
-    const dataPoint = {
+    // const dataPoint = {
+    //   current_record: {
+    //     meter_number: receivedData.meter_number,
+    //     longitude: receivedData.longitude,
+    //     latitude: receivedData.latitude,
+    //     voltage_ch1: receivedData.ch1.voltage,
+    //     current_ch1: receivedData.ch1.current,
+    //     power_ch1: receivedData.ch1.power,
+    //     energy_ch1: receivedData.ch1.energy,
+    //     power_factor_ch1: receivedData.ch1.power_factor,
+    //     voltage_ch2: receivedData.ch2.voltage,
+    //     current_ch2: receivedData.ch2.current,
+    //     power_ch2: receivedData.ch2.power,
+    //     energy_ch2: receivedData.ch2.energy,
+    //     power_factor_ch2: receivedData.ch2.power_factor,
+    //     voltage_ch3: receivedData.ch3.voltage,
+    //     current_ch3: receivedData.ch3.current,
+    //     power_ch3: receivedData.ch3.power,
+    //     energy_ch3: receivedData.ch3.energy,
+    //     power_factor_ch3: receivedData.ch3.power_factor
+    //   }
+    // }
 
-      current_record: {
-        meter_number: receivedData.meter_number,
-        longitude: receivedData.longitude,
-        latitude: receivedData.latitude,
-        voltage_ch1: receivedData.ch1.voltage,
-        current_ch1: receivedData.ch1.current,
-        power_ch1: receivedData.ch1.power,
-        energy_ch1: receivedData.ch1.energy,
-        power_factor_ch1: receivedData.ch1.power_factor,
-        voltage_ch2: receivedData.ch2.voltage,
-        current_ch2: receivedData.ch2.current,
-        power_ch2: receivedData.ch2.power,
-        energy_ch2: receivedData.ch2.energy,
-        power_factor_ch2: receivedData.ch2.power_factor,
-        voltage_ch3: receivedData.ch3.voltage,
-        current_ch3: receivedData.ch3.current,
-        power_ch3: receivedData.ch3.power,
-        energy_ch3: receivedData.ch3.energy,
-        power_factor_ch3: receivedData.ch3.power_factor
+    const dataPoint = {
+        current_record: {
+          meter_number: receivedData.meter_no,
+          longitude: receivedData.lon,
+          latitude: receivedData.lat,
+          voltage_ch1: receivedData.ch1.V,
+          current_ch1: receivedData.ch1.I,
+          power_ch1: receivedData.ch1.P,
+          energy_ch1: receivedData.ch1.E,
+          power_factor_ch1: receivedData.ch1.PF,
+          voltage_ch2: receivedData.ch2.V,
+          current_ch2: receivedData.ch2.C,
+          power_ch2: receivedData.ch2.P,
+          energy_ch2: receivedData.ch2.E,
+          power_factor_ch2: receivedData.ch2.PF,
+          voltage_ch3: receivedData.ch3.V,
+          current_ch3: receivedData.ch3.I,
+          power_ch3: receivedData.ch3.P,
+          energy_ch3: receivedData.ch3.E,
+          power_factor_ch3: receivedData.ch3.PF
+        }
       }
-    }
 
     const response = await fetch("http://143.110.244.181/app/current_records", {
       method: "POST",
