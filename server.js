@@ -13,7 +13,7 @@ const executeQuery = (values) => {
         password: 'xWQA#l23*55d',
         host: '127.0.0.1',
         port: '5432',
-        database: 'electronic',
+        database: 'smart_meter_monitoring',
     });
 
     pgClient
