@@ -1,0 +1,21 @@
+CREATE TABLE current_records (
+  id SERIAL PRIMARY KEY,
+  meter_number VARCHAR (50) NOT NULL,
+  longitude DECIMAL NOT NULL,
+  latitude DECIMAL NOT NULL,
+  voltage_ch1 DECIMAL,
+  current_ch1 DECIMAL,
+  power_ch1 DECIMAL,
+  energy_ch1 DECIMAL,
+  power_factor_ch1 DECIMAL,
+  voltage_ch2 DECIMAL,
+  current_ch2 DECIMAL,
+  power_ch2 DECIMAL,
+  energy_ch2 DECIMAL,
+  power_factor_ch2 DECIMAL,
+  voltage_ch3 DECIMAL,
+  current_ch3 DECIMAL,
+  power_ch3 DECIMAL,
+  energy_ch3 DECIMAL,
+  power_factor_ch3 DECIMAL
+)

@@ -4,6 +4,7 @@
   "description": "Electronic DB manager App",
   "main": "server.js",
   "dependencies": {
+    "node-fetch": "^3.3.2",
     "pg": "^8.13.1"
   },
   "devDependencies": {},
@@ -20,5 +21,6 @@
   "bugs": {
     "url": "https://github.com/leonardk1/electronic/issues"
   },
-  "homepage": "https://github.com/leonardk1/electronic#readme"
+  "homepage": "https://github.com/leonardk1/electronic#readme",
+  "type": "module"
 }

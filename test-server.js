@@ -1,81 +1,61 @@
-const dgram = require('dgram');
-const { Client } = require('pg');
+import dgram from "dgram"
+import fetch from "node-fetch"
+
 const port = 3001;
 
 // Create a UDP server
 const server = dgram.createSocket('udp4');
 
-// Function to handle database queries
-const executeQuery = (values) => {
-
-  const pgClient = new Client({
-    user: 'ubuni',
-    password: 'ubuniapi#2018',
-    host: '127.0.0.1',
-    port: '5432',
-    database: 'electronic',
-  });
-
-  pgClient
-    .connect()
-    .then(() => {
-      const insert = `INSERT INTO current_records(
-                meter_number,longitude,latitude,
-                voltage_ch1,current_ch1,power_ch1,energy_ch1,power_factor_ch1,
-                voltage_ch2,current_ch2,power_ch2,energy_ch2,power_factor_ch2,
-                voltage_ch3,current_ch3,power_ch3,energy_ch3,power_factor_ch3) 
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12,$13, $14, $15, $16, $17, $18)`;
-
-
-      pgClient.query(insert, values, (err, result) => {
-        if (err) {
-          console.error('Error inserting data', err);
-        } else {
-          console.log('Data inserted successfully');
-        }
-
-        pgClient.end();
-      });
-    })
-    .catch((err) => {
-      console.error('Error connecting to PostgreSQL database', err);
-    });
-};
-
 // Function to handle messages
-const handleData = (data, rinfo) => {
+
+const handleData = async (data, rinfo) => {
   console.log(`Server received: ${data} from ${rinfo.address}:${rinfo.port}`);
 
   let receivedData;
   try {
     receivedData = JSON.parse(data);
 
-    const dbValues = [
-      receivedData.meter_number,
-      receivedData.longitude,
-      receivedData.latitude,
-      receivedData.ch1.voltage,
-      receivedData.ch1.current,
-      receivedData.ch1.power,
-      receivedData.ch1.energy,
-      receivedData.ch1.power_factor,
-      receivedData.ch2.voltage,
-      receivedData.ch2.current,
-      receivedData.ch2.power,
-      receivedData.ch2.energy,
-      receivedData.ch2.power_factor,
-      receivedData.ch3.voltage,
-      receivedData.ch3.current,
-      receivedData.ch3.power,
-      receivedData.ch3.energy,
-      receivedData.ch3.power_factor
-    ]
+    const dataPoint = {
 
-    executeQuery(dbValues);
+      current_record: {
+        meter_number: receivedData.meter_number,
+        longitude: receivedData.longitude,
+        latitude: receivedData.latitude,
+        voltage_ch1: receivedData.ch1.voltage,
+        current_ch1: receivedData.ch1.current,
+        power_ch1: receivedData.ch1.power,
+        energy_ch1: receivedData.ch1.energy,
+        power_factor_ch1: receivedData.ch1.power_factor,
+        voltage_ch2: receivedData.ch2.voltage,
+        current_ch2: receivedData.ch2.current,
+        power_ch2: receivedData.ch2.power,
+        energy_ch2: receivedData.ch2.energy,
+        power_factor_ch2: receivedData.ch2.power_factor,
+        voltage_ch3: receivedData.ch3.voltage,
+        current_ch3: receivedData.ch3.current,
+        power_ch3: receivedData.ch3.power,
+        energy_ch3: receivedData.ch3.energy,
+        power_factor_ch3: receivedData.ch3.power_factor
+      }
+    }
+
+    const response = await fetch("http://localhost:3002/app/current_records", {
+      method: "POST",
+      body: JSON.stringify(dataPoint),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+
+    const responseData = await response.json()
+
+    console.log('DATA FROM RAILS')
+    console.log(responseData)
 
     const responseObject = { status: "success" };
     sendResponse(responseObject, rinfo);
   } catch (err) {
+    console.log(err)
     console.error('Invalid JSON received:', data);
     const responseObject = { status: "failed" };
     sendResponse(responseObject, rinfo);
