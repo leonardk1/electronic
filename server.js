@@ -49,7 +49,7 @@ const handleData = async (data, rinfo) => {
           energy_ch1: receivedData.ch1.E,
           power_factor_ch1: receivedData.ch1.PF,
           voltage_ch2: receivedData.ch2.V,
-          current_ch2: receivedData.ch2.C,
+          current_ch2: receivedData.ch2.I,
           power_ch2: receivedData.ch2.P,
           energy_ch2: receivedData.ch2.E,
           power_factor_ch2: receivedData.ch2.PF,
