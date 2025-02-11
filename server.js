@@ -1,13 +1,13 @@
 import dgram from "dgram"
 import fetch from "node-fetch"
+import 'dotenv/config'
 
-const port = 3000;
+const port = process.env.PORT;
 
 // Create a UDP server
 const server = dgram.createSocket('udp4');
 
 // Function to handle messages
-
 const handleData = async (data, rinfo) => {
   console.log(`Server received: ${data} from ${rinfo.address}:${rinfo.port}`);
 
@@ -15,67 +15,32 @@ const handleData = async (data, rinfo) => {
   try {
     receivedData = JSON.parse(data);
 
-    // const dataPoint = {
-    //   current_record: {
-    //     meter_number: receivedData.meter_number,
-    //     longitude: receivedData.longitude,
-    //     latitude: receivedData.latitude,
-    //     voltage_ch1: receivedData.ch1.voltage,
-    //     current_ch1: receivedData.ch1.current,
-    //     power_ch1: receivedData.ch1.power,
-    //     energy_ch1: receivedData.ch1.energy,
-    //     power_factor_ch1: receivedData.ch1.power_factor,
-    //     voltage_ch2: receivedData.ch2.voltage,
-    //     current_ch2: receivedData.ch2.current,
-    //     power_ch2: receivedData.ch2.power,
-    //     energy_ch2: receivedData.ch2.energy,
-    //     power_factor_ch2: receivedData.ch2.power_factor,
-    //     voltage_ch3: receivedData.ch3.voltage,
-    //     current_ch3: receivedData.ch3.current,
-    //     power_ch3: receivedData.ch3.power,
-    //     energy_ch3: receivedData.ch3.energy,
-    //     power_factor_ch3: receivedData.ch3.power_factor
-    //   }
-    // }
-
-    const dataPoint = {
-        current_record: {
-          meter_number: receivedData.meter_no,
-          longitude: receivedData.lon,
-          latitude: receivedData.lat,
-          voltage_ch1: receivedData.ch1.V,
-          current_ch1: receivedData.ch1.I,
-          power_ch1: receivedData.ch1.P,
-          energy_ch1: receivedData.ch1.E,
-          power_factor_ch1: receivedData.ch1.PF,
-          voltage_ch2: receivedData.ch2.V,
-          current_ch2: receivedData.ch2.I,
-          power_ch2: receivedData.ch2.P,
-          energy_ch2: receivedData.ch2.E,
-          power_factor_ch2: receivedData.ch2.PF,
-          voltage_ch3: receivedData.ch3.V,
-          current_ch3: receivedData.ch3.I,
-          power_ch3: receivedData.ch3.P,
-          energy_ch3: receivedData.ch3.E,
-          power_factor_ch3: receivedData.ch3.PF
-        }
-      }
-
-    const response = await fetch("http://143.110.244.181/app/current_records", {
+    const response = await fetch(`http://${process.env.URL}/app/current_records`, {
       method: "POST",
-      body: JSON.stringify(dataPoint),
+      body: JSON.stringify({ current_records: receivedData }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     });
 
-    const responseData = await response.json()
+    try {
 
-    console.log('DATA FROM RAILS')
-    console.log(responseData)
+      const responseData = await response.json()
 
-    const responseObject = { status: "success" };
-    sendResponse(responseObject, rinfo);
+      console.log('DATA FROM RAILS')
+      console.log(responseData)
+
+      let responseObject = { status: "success" };
+      if (responseData.message === 'Record Not Saved') {
+        responseObject = { status: "failed" }
+      }
+
+      sendResponse(responseObject, rinfo);
+    } catch (err) {
+      const responseObject = { status: "failed" };
+      sendResponse(responseObject, rinfo);
+    }
+
   } catch (err) {
     console.log(err)
     console.error('Invalid JSON received:', data);
@@ -83,8 +48,6 @@ const handleData = async (data, rinfo) => {
     sendResponse(responseObject, rinfo);
     return;
   }
-
-  console.log(receivedData)
 
 };
 
